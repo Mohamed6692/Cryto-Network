@@ -15,6 +15,30 @@ body {
   background: #F4F7FC;
 }
 
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap");
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  color: #65677E;
+  overflow: hidden; /* Empêche le défilement */
+  background: #4c515b;
+  height: 100vh; /* Définit la hauteur du body à 100% de la vue */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+
+
 * {
   margin: 0;
   padding: 0;
@@ -884,6 +908,7 @@ p {
   padding-top: 190px;
 }
 
+
 .pt-195 {
   padding-top: 195px;
 }
@@ -1377,7 +1402,7 @@ p {
     03.Hero-section CSS
 ===========================*/
 .hero-section {
-  background-image: linear-gradient(#365ae1 0%, #244ae2 4.66%, #1029a6 76.69%, #1029a6 100%);
+  background-image: linear-gradient(#1a1f31 0%, #0c0c0d 4.66%, #1a1c28 76.69%, #1029a6 100%);
   padding-top: 100px;
   padding-bottom: 80px;
   position: relative;

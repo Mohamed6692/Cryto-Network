@@ -2,6 +2,27 @@ import React , { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@simplepay-ai/widget';
 import Main from './SimplePay/Main';
+import Editor from '@monaco-editor/react';
+
+
+
+import * as monaco from 'monaco-editor';
+
+monaco.editor.defineTheme('customNight', {
+    base: 'vs-dark', // Utiliser un thème de base sombre
+    inherit: true,
+    rules: [
+        { token: 'comment', foreground: '#072155' }, // Exemple de personnalisation
+        { token: '', foreground: '#072155' }, // Couleur par défaut en blanc
+    ],
+    colors: {
+        'editor.foreground': '##072155', // Couleur du texte
+        'editor.background': '##072155', // Couleur de fond
+    }
+});
+
+
+
 
 
 function MyComponentPage() {
@@ -25,6 +46,10 @@ function MyComponentPage() {
     // Ajoutez votre logique de navigation ou autre ici
   };
   
+  const handleRevert = () => {
+    setInputText(''); // Effacer le champ de texte d'entrée
+    setCodeOutput(''); // Effacer la zone de sortie de code
+  };
 
   return (
     <div>
@@ -89,18 +114,18 @@ function MyComponentPage() {
                 <div className="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                   <ul id="nav" className="navbar-nav ml-auto">
                     <li className="nav-item">
-                      <a className="page-scroll active" href="#home">Home</a>
+                      <a className="page-scroll active" href="#docs">Docs</a>
                     </li>
                     
                     <li className="nav-item">
-                      <a className="page-scroll" href="#service">Service payment</a>
+                      <a className="page-scroll" href="#blockchain">Select Blockchain</a>
                     </li>
 
                     <li className="nav-item">
-                      <a className="page-scroll" href="#about">About</a>
+                      <a className="page-scroll" href="#wallet">Connect wallet</a>
                     </li>
 
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                       <a className="page-scroll" href="#roadmap">Roadmap</a>
                     </li>
                     <li className="nav-item">
@@ -108,7 +133,7 @@ function MyComponentPage() {
                     </li>
                     <li className="nav-item">
                       <a className="page-scroll" href="#contact">Contact</a>
-                    </li>
+                    </li> */}
                   </ul>
                 </div> {/* navbar collapse */}
               </nav> {/* navbar */}
@@ -134,393 +159,60 @@ function MyComponentPage() {
         </div>
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-xl-7 col-lg-7">
-              <div className="hero-content-wrapper">
-                <h1 className="text-white wow fadeInDown" data-wow-delay=".2s">
-                  Trade and Invest on Crypto Using Our Platform
-                </h1>
-                <p className="text-white wow fadeInLeft" data-wow-delay=".4s">
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.
-                </p>
-                <a href="#" className="theme-btn wow fadeInUp" data-wow-delay=".6s">Register Now</a>
-              </div>
-            </div>
-            <div className="col-xl-5 col-lg-5">
-              <div className="hero-img">
-                <img src={`${process.env.PUBLIC_URL}/assets/img/hero-img.svg`} alt="" className="wow fadeInRight" data-wow-delay=".5s" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-             {/* ========================= input-section start  Traitement========================= */}
-
-            <section className="input-section pt-5">
-            <h3>Code works</h3>
-                <div className="container">
-                <div className="row">
-                    <div className="col-lg-12">
-                    <div className="form-floating mb-3">
-                        <input 
-                        type="text" 
-                        className="form-control" 
-                        id="floatingInput" 
-                        placeholder="Enter a code" 
-                        value={inputText} 
-                        onChange={(e) => setInputText(e.target.value)} 
+            
+          <div className="container">
+          <h3 style={{ color: 'white' }}>Crypto</h3>
+                  <div className="row mt-2">
+                    {/* Input Section */}
+                    <div className="col-lg-6">
+                      <div className="form-floating mb-3">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="floatingInput"
+                          placeholder="Enter a code"
+                          value={inputText}
+                          onChange={(e) => setInputText(e.target.value)}
                         />
                         <label htmlFor="floatingInput">Enter a code</label>
-                    </div>
-                    <button 
-                        className="btn btn-primary mb-3" 
-                        onClick={handleProcessText}
-                    >
+                      </div>
+                      <button className="btn btn-primary mb-3" onClick={handleProcessText}>
                         Process Text
+                      </button>
+                      
+                      <Main/>
+                    </div>
+
+                    {/* Output Section - Styled as Code Editor */}
+                    <div className="col-lg-6">
+                <Editor
+                    height="200px"
+                    defaultLanguage="javascript"
+                    value={codeOutput}
+                    theme="customNight" // Appliquez le thème personnalisé
+                    options={{
+                        readOnly: true,
+                        lineNumbers: 'on',
+                    }}
+                />
+                {/* Boutons */}
+                <div className="d-flex justify-content-start mt-2">
+                    <button className="btn btn-secondary me-2" onClick={copyToClipboard}>
+                        Copy Code
                     </button>
-                    </div>
+                    <button className="btn btn-secondary" onClick={handleRevert}>
+                        Revert
+                    </button>
                 </div>
-                </div>
-            </section>
-            {/* ========================= input-section end ========================= */}
-
-            {/* ========================= code-section start ========================= */}
-            <section className="code-section pt-5">
-                <div className="container">
-                <div className="row">
-                    <div className="col-lg-12">
-                    <div className="form-floating">
-                        <textarea 
-                        className="form-control" 
-                        placeholder="Code output" 
-                        id="floatingTextarea2" 
-                        style={{ height: '200px' }} 
-                        readOnly 
-                        value={codeOutput} 
-                        />
-                        <label htmlFor="floatingTextarea2">Code Output</label>
-                        <button 
-                            className="btn btn-secondary mt-2" 
-                            onClick={copyToClipboard}
-                        >
-                        Copy Code <i className="bi bi-back"></i>
-                        </button>
-                       
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </section>
-            {/* ========================= code-section end traitement========================= */}
-
-        {/* ========================= SimplePayWidget Section ========================= */}
-         
-      {/* ========================= SimplePayWidget Section end ========================= */}
-      {/* ========================= service-section start ========================= */}
-      <section id="service" className="service-section pt-150 pb-120">
-        <div className="container text-center">
-          <h3>SimplePay Payment</h3>
-          <p>enter your price to proceed to payment</p>
-          <Main/>
-        </div>
-      </section>
-      {/* ========================= service-section end ========================= */}
-
-      {/* ========================= hero-section end ========================= */}
-
-      {/*========================= feature-section start========================= */}
-      <section id="feature" className="feature-section pt-150">
-        <div className="container">
-          <div className="row">
-            <div className="col-xl-7 col-lg-8 mx-auto">
-              <div className="section-title text-center mb-55">
-                <h2 className="mb-20 wow fadeInUp" data-wow-delay=".2s">Our Specialities</h2>
-                <p className="wow fadeInUp" data-wow-delay=".4s">
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.
-                </p>
-              </div>
             </div>
-          </div>
-          <div className="features-wrapper">
-            <div className="row justify-content-center">
-              <div className="col-xl-4 col-lg-4 col-md-6">
-                <div className="single-feature text-center mb-30 wow fadeInUp" data-wow-delay=".2s">
-                  <div className="feature-img mb-20">
-                    <img src={`${process.env.PUBLIC_URL}/assets/img/feature-1.svg`} alt="" />
-                  </div>
-                  <div className="feature-content">
-                    <h5>Buy Your Crypto</h5>
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.</p>
+                      
                   </div>
                 </div>
-              </div>
-              <div className="col-xl-4 col-lg-4 col-md-6">
-                <div className="single-feature text-center mb-30 wow fadeInUp" data-wow-delay=".4s">
-                  <div className="feature-img mb-25">
-                    <img src={`${process.env.PUBLIC_URL}/assets/img/feature-2.svg`} alt="" />
-                  </div>
-                  <div className="feature-content">
-                    <h5>Sell Instantly</h5>
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.</p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-4 col-lg-4 col-md-6">
-                <div className="single-feature text-center mb-30 wow fadeInUp" data-wow-delay=".6s">
-                  <div className="feature-img mb-20">
-                    <img src={`${process.env.PUBLIC_URL}/assets/img/feature-3.svg`} alt="" />
-                  </div>
-                  <div className="feature-content">
-                    <h5>Invest for Longterm</h5>
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/*========================= feature-section end========================= */}
-
-      {/* ========================= about-section start ========================= */}
-      <section id="about" className="about-section pt-150 pb-20">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-xl-6 col-lg-6">
-              <div className="about-img mb-30">
-                <img src={`${process.env.PUBLIC_URL}/assets/img/about-img.svg`} alt="image" className="wow fadeInLeft" data-wow-delay=".4s" />
-              </div>
-            </div>
-            <div className="col-xl-6 col-lg-6">
-              <div className="about-content mb-30">
-                <div className="section-title mb-40">
-                  <h2 className="wow fadeInUp" data-wow-delay=".2s">About Us</h2>
-                </div>
-                <p className="mb-15 wow fadeInUp" data-wow-delay=".4s">
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.
-                </p>
-                <p className="mb-35 wow fadeInUp" data-wow-delay=".6s">
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.
-                </p>
-                <a href="#" className="theme-btn theme-btn-2 wow fadeInRight" data-wow-delay=".8s">Learn More</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* ========================= about-section end ========================= */}
-
-      
-
-      {/* ========================= roadmap-section start ========================= */}
-      <section id="roadmap" className="roadmap-section pt-150 pb-120">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="section-title text-center mb-55">
-                <h2 className="mb-20 wow fadeInUp" data-wow-delay=".2s">Roadmap</h2>
-                <p className="wow fadeInUp" data-wow-delay=".4s">
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="roadmap-wrapper">
-            <div className="row">
-              <div className="col-lg-6">
-                <div className="roadmap-item mb-30 wow fadeInLeft" data-wow-delay=".2s">
-                  <h5>Q1 2023</h5>
-                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.</p>
-                </div>
-                <div className="roadmap-item mb-30 wow fadeInLeft" data-wow-delay=".4s">
-                  <h5>Q2 2023</h5>
-                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.</p>
-                </div>
-              </div>
-              <div className="col-lg-6">
-                <div className="roadmap-item mb-30 wow fadeInRight" data-wow-delay=".2s">
-                  <h5>Q3 2023</h5>
-                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.</p>
-                </div>
-                <div className="roadmap-item mb-30 wow fadeInRight" data-wow-delay=".4s">
-                  <h5>Q4 2023</h5>
-                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* ========================= roadmap-section end ========================= */}
-
-      {/* ========================= team-section start ========================= */}
-      <section id="team" className="team-section pt-150 pb-120">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="section-title text-center mb-55">
-                <h2 className="mb-20 wow fadeInUp" data-wow-delay=".2s">Our Team</h2>
-                <p className="wow fadeInUp" data-wow-delay=".4s">
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="team-wrapper">
-            <div className="row">
-              <div className="col-xl-3 col-lg-4 col-md-6">
-                <div className="single-team mb-30 wow fadeInUp" data-wow-delay=".2s">
-                  <div className="team-img">
-                    <img src={`${process.env.PUBLIC_URL}/assets/img/team-1.jpg`} alt="image" />
-                  </div>
-                  <div className="team-content">
-                    <h5>John Doe</h5>
-                    <p>CEO & Founder</p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6">
-                <div className="single-team mb-30 wow fadeInUp" data-wow-delay=".4s">
-                  <div className="team-img">
-                    <img src={`${process.env.PUBLIC_URL}/assets/img/team-2.jpg`} alt="image" />
-                  </div>
-                  <div className="team-content">
-                    <h5>Jane Doe</h5>
-                    <p>Co-Founder</p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6">
-                <div className="single-team mb-30 wow fadeInUp" data-wow-delay=".6s">
-                  <div className="team-img">
-                    <img src={`${process.env.PUBLIC_URL}/assets/img/team-3.jpg`} alt="image" />
-                  </div>
-                  <div className="team-content">
-                    <h5>Mike Smith</h5>
-                    <p>CTO</p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-3 col-lg-4 col-md-6">
-                <div className="single-team mb-30 wow fadeInUp" data-wow-delay=".8s">
-                  <div className="team-img">
-                    <img src={`${process.env.PUBLIC_URL}/assets/img/team-4.jpg`} alt="image" />
-                  </div>
-                  <div className="team-content">
-                    <h5>Emma Brown</h5>
-                    <p>Marketing Manager</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* ========================= team-section end ========================= */}
-
-      {/* ========================= contact-section start ========================= */}
-      <section id="contact" className="contact-section pt-150 pb-120">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="section-title text-center mb-55">
-                <h2 className="mb-20 wow fadeInUp" data-wow-delay=".2s">Contact Us</h2>
-                <p className="wow fadeInUp" data-wow-delay=".4s">
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="row justify-content-center">
-            <div className="col-lg-6">
-              <form className="contact-form">
-                <div className="form-group">
-                  <input type="text" className="form-control" placeholder="Your Name" required />
-                </div>
-                <div className="form-group">
-                  <input type="email" className="form-control" placeholder="Your Email" required />
-                </div>
-                <div className="form-group">
-                  <textarea className="form-control" placeholder="Your Message" required></textarea>
-                </div>
-                <button type="submit" className="theme-btn wow fadeInUp" data-wow-delay=".6s">Send Message</button>
-              </form>
-            </div>
+            
           </div>
         </div>
       </section>
 
-        {/* Footer */}
-        <footer className="footer pt-100 img-bg" style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/assets/img/common-bg.jpg)` }}>
-          <div className="container">
-            <div className="row">
-              <div className="col-xl-4 col-lg-4 col-md-6">
-                <div className="footer-widget mb-60 wow fadeInLeft" data-wow-delay=".2s">
-                <a href="index.html" className="logo mb-40">
-                    <img src={`${process.env.PUBLIC_URL}/assets/img/logo.svg`} alt="" />
-                </a>
-                  <p className="mb-30">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.</p>
-                  <div className="footer-social-links">
-                    <ul>
-                      <li><a href="#"><i className="lni lni-facebook-filled"></i></a></li>
-                      <li><a href="#"><i className="lni lni-twitter-filled"></i></a></li>
-                      <li><a href="#"><i className="lni lni-linkedin-original"></i></a></li>
-                      <li><a href="#"><i className="lni lni-instagram-original"></i></a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-2 col-lg-2 col-md-6">
-  <div className="footer-widget mb-60 wow fadeInUp" data-wow-delay=".4s">
-    <h4>Company</h4>
-    <ul className="footer-links">
-      <li><a href="#" onClick={() => handleLinkClick('home')}>Home</a></li>
-      <li><a href="#" onClick={() => handleLinkClick('about')}>About</a></li>
-      <li><a href="#" onClick={() => handleLinkClick('service')}>Service</a></li>
-      <li><a href="#" onClick={() => handleLinkClick('team')}>Team</a></li>
-      <li><a href="#" onClick={() => handleLinkClick('contact')}>Contact</a></li>
-    </ul>
-  </div>
-            </div>
-            <div className="col-xl-3 col-lg-3 col-md-6">
-              <div className="footer-widget mb-60 wow fadeInUp" data-wow-delay=".6s">
-                <h4>Resource</h4>
-                <ul className="footer-links">
-                  <li><a href="#" onClick={() => handleLinkClick('documentation')}>Documentation</a></li>
-                  <li><a href="#" onClick={() => handleLinkClick('apps')}>IOS & Android Apps</a></li>
-                  <li><a href="#" onClick={() => handleLinkClick('privacy-policy')}>Privacy Policy</a></li>
-                  <li><a href="#" onClick={() => handleLinkClick('support-forum')}>Support Forum</a></li>
-                  <li><a href="#" onClick={() => handleLinkClick('terms')}>Terms Conditions</a></li>
-                </ul>
-              </div>
-            </div>
-
-              <div className="col-xl-3 col-lg-3 col-md-6">
-                <div className="footer-widget mb-60 wow fadeInRight" data-wow-delay=".8s">
-                  <h4>Resource</h4>
-                  <ul>
-                    <li className="mb-30">
-                      <p>Company No: RTT56 <br />
-                      exemple test GROUP .</p>
-                    </li>
-                    <li>
-                      <p>Address: xxtr test Ave, <br />Laterr city</p>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="copyright-area">
-              <p className="mb-0 text-white text-center">2024 </p>
-            </div>
-          </div>
-        </footer>
-
-        {/* Scroll to top */}
-        <a href="#" className="scroll-top">
-          <i className="lni lni-chevron-up"></i>
-        </a>
 
         {/* JS scripts */}
         <script src="./assets/js/bootstrap.bundle-5.0.0.alpha-1-min.js"></script>
