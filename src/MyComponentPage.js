@@ -206,7 +206,7 @@ function MyComponentPage() {
                             borderRadius: '8px',
                             color: 'white',
                             marginBottom: '20px',
-                            marginTop: '100px',
+                            marginTop: '130px',
                             lineHeight: '1.5', // Hauteur des lignes
                             textAlign: 'left',
                           }}
