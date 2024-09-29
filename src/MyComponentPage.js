@@ -1,28 +1,9 @@
 import React , { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@simplepay-ai/widget';
+import Main from './SimplePay/Main';
 
-const SimplePayWidget = ({
-  price,
-  appId,
-  clientId,
-  backToStoreUrl,
-  dark = false,
-  invoiceId,
-}) => {
-  return (
-    <div>
-      <payment-app
-        price={price}
-        appId={appId}
-        clientId={clientId}
-        backToStoreUrl={backToStoreUrl}
-        dark={dark ? 'true' : 'false'}
-        invoiceId={invoiceId}
-      />
-    </div>
-  );
-};
+
 function MyComponentPage() {
 
   const [inputText, setInputText] = useState('');
@@ -222,18 +203,7 @@ function MyComponentPage() {
             {/* ========================= code-section end traitement========================= */}
 
         {/* ========================= SimplePayWidget Section ========================= */}
-        <section className="payment-widget-section pt-5">
-                <div className="container">
-                <h2>Payment Widget</h2>
-                <SimplePayWidget 
-                    price="0.8"
-                    appId="09476f0c-ed36-4dfe-84f4-ef2df1644830"
-                    clientId="bf298925-2f45-492c-891d-f997aa7ac864"
-                    backToStoreUrl="https://example.com"
-                    dark={false} // Change to true if you want dark theme
-                />
-                </div>
-            </section>
+         <Main/>
       {/* ========================= SimplePayWidget Section end ========================= */}
 
 
@@ -519,11 +489,11 @@ function MyComponentPage() {
                   <h4>Resource</h4>
                   <ul>
                     <li className="mb-30">
-                      <p>Company No: C5B345 <br />
-                      CSINE GROUP LTD.</p>
+                      <p>Company No: RTT56 <br />
+                      exemple test GROUP .</p>
                     </li>
                     <li>
-                      <p>Address: M-321 Volunt Ave, <br /> Staten Islandm, NY 201526</p>
+                      <p>Address: xxtr test Ave, <br />Laterr city</p>
                     </li>
                   </ul>
                 </div>
