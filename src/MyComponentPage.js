@@ -19,6 +19,13 @@ function MyComponentPage() {
     alert('Code copied to clipboard!');
   };
 
+  const handleLinkClick = (link) => {
+    // Logique pour gérer le clic sur le lien
+    console.log(`Clicked on: ${link}`);
+    // Ajoutez votre logique de navigation ou autre ici
+  };
+  
+
   return (
     <div>
       <meta charSet="utf-8" />
@@ -27,11 +34,11 @@ function MyComponentPage() {
       <meta name="description" content="" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-      <link rel="shortcut icon" type="image/x-icon" href="%PUBLIC_URL%/assets/img/favicon.png" />
-      <link rel="stylesheet" href="%PUBLIC_URL%/assets/css/bootstrap-5.0.0-alpha-1.min.css" />
-      <link rel="stylesheet" href="%PUBLIC_URL%/assets/css/LineIcons.2.0.css" />
-      <link rel="stylesheet" href="%PUBLIC_URL%/assets/css/animate.css" />
-      <link rel="stylesheet" href="%PUBLIC_URL%/assets/css/main.css" />
+      <link rel="shortcut icon" type="image/x-icon" href="./assets/img/favicon.png" />
+      <link rel="stylesheet" href="./assets/css/bootstrap-5.0.0-alpha-1.min.css" />
+      <link rel="stylesheet" href="./assets/css/LineIcons.2.0.css" />
+      <link rel="stylesheet" href="./assets/css/animate.css" />
+      <link rel="stylesheet" href="./assets/css/main.css" />
 
       <div>
         {/* Internet Explorer upgrade warning */}
@@ -84,12 +91,15 @@ function MyComponentPage() {
                     <li className="nav-item">
                       <a className="page-scroll active" href="#home">Home</a>
                     </li>
+                    
+                    <li className="nav-item">
+                      <a className="page-scroll" href="#service">Service payment</a>
+                    </li>
+
                     <li className="nav-item">
                       <a className="page-scroll" href="#about">About</a>
                     </li>
-                    <li className="nav-item">
-                      <a className="page-scroll" href="#service">Service</a>
-                    </li>
+
                     <li className="nav-item">
                       <a className="page-scroll" href="#roadmap">Roadmap</a>
                     </li>
@@ -146,7 +156,9 @@ function MyComponentPage() {
 
 
              {/* ========================= input-section start  Traitement========================= */}
+
             <section className="input-section pt-5">
+            <h3>Code works</h3>
                 <div className="container">
                 <div className="row">
                     <div className="col-lg-12">
@@ -155,11 +167,11 @@ function MyComponentPage() {
                         type="text" 
                         className="form-control" 
                         id="floatingInput" 
-                        placeholder="Enter your text" 
+                        placeholder="Enter a code" 
                         value={inputText} 
                         onChange={(e) => setInputText(e.target.value)} 
                         />
-                        <label htmlFor="floatingInput">Input Text</label>
+                        <label htmlFor="floatingInput">Enter a code</label>
                     </div>
                     <button 
                         className="btn btn-primary mb-3" 
@@ -203,9 +215,17 @@ function MyComponentPage() {
             {/* ========================= code-section end traitement========================= */}
 
         {/* ========================= SimplePayWidget Section ========================= */}
-         <Main/>
+         
       {/* ========================= SimplePayWidget Section end ========================= */}
-
+      {/* ========================= service-section start ========================= */}
+      <section id="service" className="service-section pt-150 pb-120">
+        <div className="container text-center">
+          <h3>SimplePay Payment</h3>
+          <p>enter your price to proceed to payment</p>
+          <Main/>
+        </div>
+      </section>
+      {/* ========================= service-section end ========================= */}
 
       {/* ========================= hero-section end ========================= */}
 
@@ -253,7 +273,7 @@ function MyComponentPage() {
                   </div>
                   <div className="feature-content">
                     <h5>Invest for Longterm</h5>
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed dianonumy eirmod tempor invidunt ut labore.</p>
+                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, </p>
                   </div>
                 </div>
               </div>
@@ -291,16 +311,7 @@ function MyComponentPage() {
       </section>
       {/* ========================= about-section end ========================= */}
 
-      {/* ========================= service-section start ========================= */}
-      <section id="service" className="service-section pt-150 pb-120">
-        <div className="container text-center">
-          <h1>You are using free lite version of Crypto</h1>
-          <p>Please, purchase full version to get all sections, elements, permission to remove footer credit</p>
-          <br />
-          <a href="https://rebrand.ly/ud-crypto" rel="nofollow" target="_blank" className="theme-btn wow fadeInUp" data-wow-delay=".6s">Purchase Now</a>
-        </div>
-      </section>
-      {/* ========================= service-section end ========================= */}
+      
 
       {/* ========================= roadmap-section start ========================= */}
       <section id="roadmap" className="roadmap-section pt-150 pb-120">
@@ -461,29 +472,30 @@ function MyComponentPage() {
                 </div>
               </div>
               <div className="col-xl-2 col-lg-2 col-md-6">
-                <div className="footer-widget mb-60 wow fadeInUp" data-wow-delay=".4s">
-                  <h4>Company</h4>
-                  <ul className="footer-links">
-                    <li><a href="javascript:void(0)">Home</a></li>
-                    <li><a href="javascript:void(0)">About</a></li>
-                    <li><a href="javascript:void(0)">Service</a></li>
-                    <li><a href="javascript:void(0)">Team</a></li>
-                    <li><a href="javascript:void(0)">Contact</a></li>
-                  </ul>
-                </div>
+  <div className="footer-widget mb-60 wow fadeInUp" data-wow-delay=".4s">
+    <h4>Company</h4>
+    <ul className="footer-links">
+      <li><a href="#" onClick={() => handleLinkClick('home')}>Home</a></li>
+      <li><a href="#" onClick={() => handleLinkClick('about')}>About</a></li>
+      <li><a href="#" onClick={() => handleLinkClick('service')}>Service</a></li>
+      <li><a href="#" onClick={() => handleLinkClick('team')}>Team</a></li>
+      <li><a href="#" onClick={() => handleLinkClick('contact')}>Contact</a></li>
+    </ul>
+  </div>
+            </div>
+            <div className="col-xl-3 col-lg-3 col-md-6">
+              <div className="footer-widget mb-60 wow fadeInUp" data-wow-delay=".6s">
+                <h4>Resource</h4>
+                <ul className="footer-links">
+                  <li><a href="#" onClick={() => handleLinkClick('documentation')}>Documentation</a></li>
+                  <li><a href="#" onClick={() => handleLinkClick('apps')}>IOS & Android Apps</a></li>
+                  <li><a href="#" onClick={() => handleLinkClick('privacy-policy')}>Privacy Policy</a></li>
+                  <li><a href="#" onClick={() => handleLinkClick('support-forum')}>Support Forum</a></li>
+                  <li><a href="#" onClick={() => handleLinkClick('terms')}>Terms Conditions</a></li>
+                </ul>
               </div>
-              <div className="col-xl-3 col-lg-3 col-md-6">
-                <div className="footer-widget mb-60 wow fadeInUp" data-wow-delay=".6s">
-                  <h4>Resource</h4>
-                  <ul className="footer-links">
-                    <li><a href="javascript:void(0)">Documentation</a></li>
-                    <li><a href="javascript:void(0)">IOS & Android Apps</a></li>
-                    <li><a href="javascript:void(0)">Privacy Policy</a></li>
-                    <li><a href="javascript:void(0)">Support Forum</a></li>
-                    <li><a href="javascript:void(0)">Terms Conditions</a></li>
-                  </ul>
-                </div>
-              </div>
+            </div>
+
               <div className="col-xl-3 col-lg-3 col-md-6">
                 <div className="footer-widget mb-60 wow fadeInRight" data-wow-delay=".8s">
                   <h4>Resource</h4>
@@ -500,7 +512,7 @@ function MyComponentPage() {
               </div>
             </div>
             <div className="copyright-area">
-              <p className="mb-0 text-white text-center">Template By <a href="https://uideck.com" rel="nofollow" target="_blank">UIdeck</a></p>
+              <p className="mb-0 text-white text-center">2024 </p>
             </div>
           </div>
         </footer>
@@ -511,10 +523,10 @@ function MyComponentPage() {
         </a>
 
         {/* JS scripts */}
-        <script src="%PUBLIC_URL%/assets/js/bootstrap.bundle-5.0.0.alpha-1-min.js"></script>
-        <script src="%PUBLIC_URL%/assets/js/contact-form.js"></script>
-        <script src="%PUBLIC_URL%/assets/js/wow.min.js"></script>
-        <script src="%PUBLIC_URL%/assets/js/main.js"></script>
+        <script src="./assets/js/bootstrap.bundle-5.0.0.alpha-1-min.js"></script>
+        <script src="./assets/js/contact-form.js"></script>
+        <script src="./assets/js/wow.min.js"></script>
+        <script src="./assets/js/main.js"></script>
       </div>
     </div>
   );

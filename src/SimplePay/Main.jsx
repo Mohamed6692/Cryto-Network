@@ -1,8 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '@simplepay-ai/widget';
 
 const Main = () => {
-    // Styles en ligne
+    const [invoiceId, setInvoiceId] = useState('');
+
+    useEffect(() => {
+        // Simule la création d'une facture ou récupère l'ID de la facture
+        const createInvoice = async () => {
+            try {
+                // Remplacez par votre logique d'appel d'API pour créer une facture
+                const response = await fetch('https://api.simplepay.ai/invoice', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        // vos données de facture ici
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la création de la facture');
+                }
+
+                const data = await response.json();
+                setInvoiceId(data.invoiceId); // Ajustez selon votre API
+            } catch (error) {
+                console.error('Erreur de création de la facture :', error);
+            }
+        };
+
+        createInvoice();
+    }, []);
+
     const styles = {
         container: {
             margin: 0,
@@ -13,10 +43,9 @@ const Main = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100vh', // Utilisez vh pour la compatibilité
+            height: '100vh',
         },
         appContainer: {
-            margin: '0 auto',
             width: '100%',
             height: '600px',
             maxWidth: '390px',
@@ -39,10 +68,9 @@ const Main = () => {
             <div style={styles.body}>
                 <div style={styles.appContainer}>
                     <payment-app
-                        price="0.8"
                         appId="eb651bb3-6e26-4f1d-9549-d96540300d8e"
                         clientId="707533d2-971d-4cd6-a2a5-9c6dd44c0fe5"
-                        invoiceId=""
+                        invoiceId={invoiceId} // Utiliser l'ID de la facture ici
                         backToStoreUrl="https://simplepay.ai"
                         serverUrl="https://api.simplepay.ai/invoice"
                         dark
@@ -50,7 +78,6 @@ const Main = () => {
                 </div>
             </div>
         </div>
-        
     );
 };
 

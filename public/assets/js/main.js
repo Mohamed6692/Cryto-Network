@@ -71,6 +71,7 @@ document.querySelectorAll(".page-scroll").forEach(e =>
 		navbarCollapse.classList.remove('show')
 	})
 );
+
 navbarToggler.addEventListener('click', function () {
 	navbarToggler.classList.toggle("active");
 });
