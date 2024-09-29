@@ -45,6 +45,7 @@ function MyComponentPage() {
     console.log(`Clicked on: ${link}`);
     // Ajoutez votre logique de navigation ou autre ici
   };
+
   
   const handleRevert = () => {
     setInputText(''); // Effacer le champ de texte d'entrée
@@ -125,15 +126,6 @@ function MyComponentPage() {
                       <a className="page-scroll" href="#wallet">Connect wallet</a>
                     </li>
 
-                    {/* <li className="nav-item">
-                      <a className="page-scroll" href="#roadmap">Roadmap</a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="page-scroll" href="#team">Team</a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="page-scroll" href="#contact">Contact</a>
-                    </li> */}
                   </ul>
                 </div> {/* navbar collapse */}
               </nav> {/* navbar */}
@@ -176,35 +168,58 @@ function MyComponentPage() {
                         />
                         <label htmlFor="floatingInput">Enter a code</label>
                       </div>
-                      <button className="btn btn-primary mb-3" onClick={handleProcessText}>
+                      <button className="btn btn-primary mb-3" style={{ width: '300px' }} onClick={handleProcessText}>
                         Process Text
                       </button>
+
                       
                       <Main/>
                     </div>
 
                     {/* Output Section - Styled as Code Editor */}
                     <div className="col-lg-6">
-                <Editor
-                    height="200px"
-                    defaultLanguage="javascript"
-                    value={codeOutput}
-                    theme="customNight" // Appliquez le thème personnalisé
-                    options={{
-                        readOnly: true,
-                        lineNumbers: 'on',
-                    }}
-                />
-                {/* Boutons */}
-                <div className="d-flex justify-content-start mt-2">
-                    <button className="btn btn-secondary me-2" onClick={copyToClipboard}>
-                        Copy Code
-                    </button>
-                    <button className="btn btn-secondary" onClick={handleRevert}>
-                        Revert
-                    </button>
+                    <Editor
+                         height="300px"
+                        defaultLanguage="javascript"
+                        value={codeOutput}
+                        theme="customNight" // Appliquez le thème personnalisé
+                        options={{
+                            readOnly: true,
+                            lineNumbers: 'on',
+                        }}
+                    />
+                      {/* Boutons */}
+                      <div className="d-flex justify-content-start mt-2">
+                        <button className="btn btn-secondary me-2" onClick={copyToClipboard}>
+                          Copy Code
+                        </button>
+                        <button className="btn btn-secondary" onClick={handleRevert}>
+                          Revert
+                        </button>
+                      </div>
+
+                        {/* Boîte d'instructions semi-transparente */}
+                        <div
+                          style={{
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent
+                            padding: '20px',
+                            borderRadius: '8px',
+                            color: 'white',
+                            marginBottom: '20px',
+                            marginTop: '100px',
+                            lineHeight: '1.5', // Hauteur des lignes
+                            textAlign: 'left',
+                          }}
+                        >
+                         <h4>Instructions for SimplePay</h4>
+                          <ol> {/* Align text properly */}
+                            <li style={{ marginLeft: '10px' }}>Step 1: Enter the required code in the input field.</li>
+                            <li style={{ marginLeft: '10px' }}>Step 2: Click the "Process Text" button to process your input.</li>
+                            <li style={{ marginLeft: '10px' }}>Step 3: Use the "Copy Code" button to copy the output code.</li>
+                            <li style={{ marginLeft: '10px' }}>Step 4: You can revert the changes using the "Revert" button.</li>
+                          </ol>
+                        </div>
                 </div>
-            </div>
                       
                   </div>
                 </div>
