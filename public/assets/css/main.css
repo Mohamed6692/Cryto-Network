@@ -1189,6 +1189,7 @@ p {
   opacity: 0;
 }
 
+
 .navbar-toggler.active .toggler-icon:nth-of-type(3) {
   transform: rotate(135deg);
   top: -7px;
@@ -1276,7 +1277,7 @@ p {
   position: absolute;
   width: 0%;
   height: 3px;
-  background: #85E4A5;
+  /* background: #85E4A5; */
   left: 0;
   right: 0;
   bottom: 0;

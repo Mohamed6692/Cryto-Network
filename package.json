@@ -3,12 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@monaco-editor/react": "^4.6.0",
     "@simplepay-ai/api-client": "^0.2.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@thirdweb-dev/react": "^4.9.4",
+    "@thirdweb-dev/sdk": "^4.0.99",
     "bootstrap": "^5.3.3",
+    "codemirror": "^6.0.1",
+    "framer-motion": "^11.9.0",
+    "next-auth": "^4.24.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
@@ -39,6 +47,8 @@
     ]
   },
   "devDependencies": {
-    "@simplepay-ai/widget": "^0.1.0"
+    "@simplepay-ai/widget": "^0.1.0",
+    "@types/react": "^18.3.10",
+    "@types/react-dom": "^18.3.0"
   }
 }

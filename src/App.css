@@ -38,3 +38,12 @@
 }
 
 
+.editor-container {
+  border: 1px solid white; /* Bordure blanche de 2 pixels */
+  border-radius: 4px;      /* Arrondi des coins (optionnel) */
+  overflow: hidden;         /* Évite que le contenu déborde */
+}
+
+.custom-label {
+  margin-bottom: 0px; /* Ajustez la valeur ici */
+}

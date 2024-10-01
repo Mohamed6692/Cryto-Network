@@ -1,38 +1,45 @@
-import React , { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@simplepay-ai/widget';
 import Main from './SimplePay/Main';
 import Editor from '@monaco-editor/react';
 
-
-
-import * as monaco from 'monaco-editor';
-
-monaco.editor.defineTheme('customNight', {
-    base: 'vs-dark', // Utiliser un thème de base sombre
-    inherit: true,
-    rules: [
-        { token: 'comment', foreground: '#072155' }, // Exemple de personnalisation
-        { token: '', foreground: '#072155' }, // Couleur par défaut en blanc
-    ],
-    colors: {
-        'editor.foreground': '##072155', // Couleur du texte
-        'editor.background': '##072155', // Couleur de fond
-    }
-});
-
-
-
+import './App.css';
 
 
 function MyComponentPage() {
 
+
+
   const [inputText, setInputText] = useState('');
   const [codeOutput, setCodeOutput] = useState('');
+  const [labelActive, setLabelActive] = useState(false);
+  const [showConnectButton, setShowConnectButton] = useState(false); // State to handle Connect Wallet visibility
+  const [creditBalance, setCreditBalance] = useState(100);
+  
 
+  const handleEditorDidMount = (editor, monaco) => {
+    // Define and apply the custom theme once Monaco is available
+    monaco.editor.defineTheme('customNight', {
+      base: 'vs-dark', // Use a dark base theme
+      inherit: true,
+      rules: [
+        { token: 'comment', foreground: '#34C759' }, // Green text color for comments
+      ],
+      colors: {
+        'editor.background': '#141515', // Violet background color
+        'editor.foreground': '#34C759', // Green text color for general content
+      },
+    });
+    // Apply the custom theme
+    monaco.editor.setTheme('customNight');
+  };
+
+  
   const handleProcessText = () => {
-    // Traitement du texte ici
-    setCodeOutput(inputText); // Exemple : mettre le texte d'entrée dans la zone de code
+    // Ajoutez 'C/>' devant le texte saisi
+    const formattedText = `C/>${inputText}`;
+    setCodeOutput(formattedText); // Mettre à jour la zone de code avec le texte formaté
   };
 
   const copyToClipboard = () => {
@@ -50,6 +57,7 @@ function MyComponentPage() {
   const handleRevert = () => {
     setInputText(''); // Effacer le champ de texte d'entrée
     setCodeOutput(''); // Effacer la zone de sortie de code
+    setLabelActive(false);
   };
 
   return (
@@ -65,6 +73,7 @@ function MyComponentPage() {
       <link rel="stylesheet" href="./assets/css/LineIcons.2.0.css" />
       <link rel="stylesheet" href="./assets/css/animate.css" />
       <link rel="stylesheet" href="./assets/css/main.css" />
+     
 
       <div>
         {/* Internet Explorer upgrade warning */}
@@ -114,10 +123,17 @@ function MyComponentPage() {
 
                 <div className="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                   <ul id="nav" className="navbar-nav ml-auto">
-                    <li className="nav-item">
-                      <a className="page-scroll active" href="#docs">Docs</a>
-                    </li>
                     
+                  <li className="nav-item">
+                    <a className="page-scroll active" href="">
+                    Credit Balance: ${creditBalance}
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="page-scroll active" href="#docs">
+                      Docs <i className="bi bi-box-arrow-in-right"></i>
+                    </a>
+                  </li>
                     <li className="nav-item">
                       <a className="page-scroll" href="#blockchain">Select Blockchain</a>
                     </li>
@@ -134,7 +150,6 @@ function MyComponentPage() {
         </div> {/* container */}
       </header>
       {/* ========================= header end ========================= */}
-
 
 
 
@@ -156,21 +171,49 @@ function MyComponentPage() {
           <h3 style={{ color: 'white' }}>Crypto</h3>
                   <div className="row mt-2">
                     {/* Input Section */}
-                    <div className="col-lg-6">
-                      <div className="form-floating mb-3">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="floatingInput"
-                          placeholder="Enter a code"
-                          value={inputText}
-                          onChange={(e) => setInputText(e.target.value)}
-                        />
-                        <label htmlFor="floatingInput">Enter a code</label>
+
+                      <div className="col-lg-6">
+                        <div className="form-floating mb-3">
+                        <div className="input-group">
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="floatingInput"
+                              value={inputText}
+                              onChange={(e) => setInputText(e.target.value)}
+                              onFocus={() => setLabelActive(true)} // Activer le label au focus
+                              onBlur={() => setLabelActive(inputText !== '')} // Garder le label actif si le champ n'est pas vide
+                              style={{ backgroundColor: 'rgb(20, 21, 21)', color: '#34C759' }}
+                            />
+                            <button className="btn btn-outline-secondary" onClick={copyToClipboard} type="button">
+                              <i className="bi bi-clipboard2"></i>
+                            </button>
+
+                        </div>
+                        <label 
+                          htmlFor="floatingInput" 
+                          className="custom-label"
+                          style={{ 
+                            color: '#34C759', 
+                            display: labelActive || inputText ? 'none' : 'block' // Disparaître si le label est actif ou s'il y a du texte
+                          }}
+                        >
+                          Enter a code
+                        </label>
                       </div>
-                      <button className="btn btn-primary mb-3" style={{ width: '300px' }} onClick={handleProcessText}>
-                        Process Text
-                      </button>
+                      <button 
+                      className="btn btn-outline-secondary mb-3" 
+                      style={{ 
+                        width: '300px', 
+                        backgroundColor: 'black', // Couleur de fond noire
+                        color: '#34C759', // Couleur du texte verte
+                        borderColor: '#34C759', // Couleur de la bordure pour correspondre au texte
+                      }} 
+                      onClick={handleProcessText}
+                    >
+                      Process Text
+                    </button>
+
 
                       
                       <Main/>
@@ -178,25 +221,48 @@ function MyComponentPage() {
 
                     {/* Output Section - Styled as Code Editor */}
                     <div className="col-lg-6">
-                    <Editor
-                         height="300px"
-                        defaultLanguage="javascript"
-                        value={codeOutput}
-                        theme="customNight" // Appliquez le thème personnalisé
-                        options={{
+                      <div className="editor-container">
+                          <Editor
+                          height="390px"
+                          width="100%"
+                          defaultLanguage="javascript"
+                          value={codeOutput}
+                          theme="customNight"
+                          onMount={handleEditorDidMount} // Ensure Monaco is ready before applying the theme
+                          options={{
                             readOnly: true,
                             lineNumbers: 'on',
-                        }}
-                    />
+                          }}
+                        />
+                    </div>
                       {/* Boutons */}
                       <div className="d-flex justify-content-start mt-2">
-                        <button className="btn btn-secondary me-2" onClick={copyToClipboard}>
+                        <button 
+                          className="btn btn-outline-secondary me-2" 
+                          style={{ 
+                            backgroundColor: 'black', // Couleur de fond noire
+                            color: '#34C759', // Couleur du texte verte
+                            borderColor: '#34C759', // Couleur de la bordure pour correspondre au texte
+                            width: '350px',
+                          }} 
+                          onClick={copyToClipboard}
+                        >
                           Copy Code
                         </button>
-                        <button className="btn btn-secondary" onClick={handleRevert}>
+                        <button 
+                          className="btn btn-outline-secondary" 
+                          style={{ 
+                            backgroundColor: 'black', // Couleur de fond noire
+                            color: '#34C759', // Couleur du texte verte
+                            borderColor: '#34C759', // Couleur de la bordure pour correspondre au texte
+                            width: '350px',
+                          }} 
+                          onClick={handleRevert}
+                        >
                           Revert
                         </button>
                       </div>
+
 
                         {/* Boîte d'instructions semi-transparente */}
                         <div
@@ -206,12 +272,12 @@ function MyComponentPage() {
                             borderRadius: '8px',
                             color: 'white',
                             marginBottom: '20px',
-                            marginTop: '130px',
+                            marginTop: '20px',
                             lineHeight: '1.5', // Hauteur des lignes
                             textAlign: 'left',
                           }}
                         >
-                         <h4>Instructions for SimplePay</h4>
+                         <h4 style={{ marginLeft: '10px' }}>Instructions for SimplePay</h4>
                           <ol> {/* Align text properly */}
                             <li style={{ marginLeft: '10px' }}>Step 1: Enter the required code in the input field.</li>
                             <li style={{ marginLeft: '10px' }}>Step 2: Click the "Process Text" button to process your input.</li>
@@ -234,6 +300,8 @@ function MyComponentPage() {
         <script src="./assets/js/contact-form.js"></script>
         <script src="./assets/js/wow.min.js"></script>
         <script src="./assets/js/main.js"></script>
+
+        
       </div>
     </div>
   );
